@@ -59,47 +59,42 @@ class selector:
 
 	def centrality(self,x):
 		total = 0
-		for sentence in self.document:
+		for sentence in self.document.body:
 			total+=self.tf_idf_cosine(x,sentence)
-		total=total/len(self.document)
+		total=total/len(self.document.body)
 		return total
 
 	def centrality_cmp(self,x,y):
 		return centrality(x)-centrality(y)
+	def orig_order(self,x):
+		return self.document.body.index(x)
 
-	def __init__(self,doc_counter,word_counter):
+	def __init__(self,doc_counter,word_counter,document):
 		self.doc_counter = doc_counter
 		self.word_counter = word_counter
 		self.word_map = word_counter.get_word_map()
 		self.doc_map = doc_counter.get_doc_map()
 		self.doc_count = doc_counter.get_num_docs()
-		self.document = word_counter.get_document()
+		self.document = document
 
-		for i in self.document:
-			print()
-			print()
-			for j in i:
-				print(j,end=" ")
-		print()
+		self.printer(self.document.body)
 		print()
 		print("summary")
-		doc = self.document.copy()
+		for j in self.document.title:
+			print(j,end=" ")
+		print()
+		doc = self.document.body.copy()
 		doc.sort(key=self.centrality,reverse=True)
-		doc[:5]
-		for i in doc[:6]:
+		best = doc[:7]
+		best.sort(key=self.orig_order)
+		self.printer(best)
+
+	def printer(self, body):
+		for i in body:
 			print()
 			print()
 			for j in i:
 				print(j,end=" ")
+
 			
 
-
-		
-
-
-
-
-
-if __name__=='__main__':
-	a =content_selector()
-	a.main()

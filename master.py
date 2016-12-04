@@ -8,7 +8,8 @@ def main():
 	document = "reuters/test/14890"
 	doc_count = counts.doc_count(folder,False)
 	word_count = counts.word_count(document,False)
-	selector = content_selection.selector(doc_count,word_count)
+	document = counts.document(document)
+	selector = content_selection.selector(doc_count,word_count,document)
 
 
 if __name__=='__main__':

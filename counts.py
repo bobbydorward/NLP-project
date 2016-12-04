@@ -15,20 +15,12 @@ class doc_count:
 			if fn == "CONTENTS" or fn=="README" or fn=="cats.txt" or fn[0]==".":
 				continue
 			print(fn)
-			file = open('./'+folder+'/'+fn)
-			lines = []
 			try:
-				all_lines = file.read()
-				split_lines = all_lines.split(".")
-				for line in split_lines:
-					line = line.split()
-					if(len(line)>0):
-						lines.append(line)
-						#print(line)
+				doc = document('./'+folder+'/'+fn)
+				lines = doc.body
 				self.docs.append(lines)
 			except:
 				continue
-
 		self.fill_doc_map()
 
 	def fill_doc_map(self):
@@ -51,49 +43,47 @@ class doc_count:
 
 
 class word_count:
-	document = None
+	body = None
 	word_map = defaultdict(int)
 	def __init__(self,file,POS_flag):
-		f = open(file)
-		lines = None
-		if(POS_flag):
-			lines = self.POS_read(f)
-		else:
-			lines = self.normal_read(f)
-		self.document = lines
-		self.fill_word_map(lines)
-
-	def POS_read(self,file):
-		lines = []
-		for line in file:
-			line = line.split()
-			line = [re.match("(.+)/", word).group(1) for word in line]
-			if(len(line)>0):
-				lines.append(line)
-		return lines
-
-	def normal_read(self,file):
-		lines = []
-		all_lines = file.read()
-		split_lines = all_lines.split(".")
-		print(split_lines)
-		for line in split_lines:
-			print(line.split())
-			line = line.split()
-			if(len(line)>0):
-				lines.append(line)
-		return lines
+		try:
+			doc = document(file)
+		except:
+			print("faliure")
+			exit(1)
+		self.body = doc.body
+		self.fill_word_map(self.body)
 
 	def fill_word_map(self,doc):
 		for sentence in doc:
 			for word in sentence:
 				self.word_map[word]+=1
 
+
 	def get_word_map(self):
 		return self.word_map
 
-	def get_document(self):
-		return self.document
+
+class document:
+	body = None
+	title = None
+
+	def __init__(self, file_name):
+		file = open(file_name)
+		self.initialize(file)
+
+	def initialize(self,file):
+		p = re.compile("\.\n")
+		self.title = file.readline().split()
+		all_lines = file.read()
+		split_lines = p.split(all_lines)
+		lines = []
+		for line in split_lines:
+			line = line.split()
+			if(len(line)>0):
+				lines.append(line)
+		self.body = lines
+
 
 
 
