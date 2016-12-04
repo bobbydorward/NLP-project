@@ -1,0 +1,15 @@
+
+import content_selection
+import counts
+
+def main():
+
+	folder = "reuters/training"
+	document = "reuters/test/14890"
+	doc_count = counts.doc_count(folder,False)
+	word_count = counts.word_count(document,False)
+	selector = content_selection.selector(doc_count,word_count)
+
+
+if __name__=='__main__':
+	main()
