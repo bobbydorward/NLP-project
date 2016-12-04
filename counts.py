@@ -73,7 +73,7 @@ class document:
 		self.initialize(file)
 
 	def initialize(self,file):
-		p = re.compile("\.\n")
+		p = re.compile("[^(Mr)(Dr)]\.\"?[\n\s]")
 		self.title = file.readline().split()
 		all_lines = file.read()
 		split_lines = p.split(all_lines)

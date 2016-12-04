@@ -14,6 +14,8 @@ import collections
 
 class selector:
 
+	stop = ["a","the","he","she","we","I","they","of", "an"]
+
 	doc_counter = None
 	word_counter=None
 	word_map = None
@@ -42,6 +44,10 @@ class selector:
 			#(tf_{x_i,x}idf_{x_i})^2
 		#same with y
 		total = 0
+		#print("next")
+		#print(x)
+		#print(y)
+		#print(self.intersection(x,y))
 		for w in self.intersection(x,y):
 			total+=self.tf(w,x)*self.tf(w,y)*(self.idf(w)**2)
 		next_total = 0
@@ -84,10 +90,11 @@ class selector:
 			print(j,end=" ")
 		print()
 		doc = self.document.body.copy()
-		doc.sort(key=self.centrality,reverse=True)
-		best = doc[:7]
+		doc.sort(key=self.centrality,reverse=False)
+		best = doc[:max(1,int(0.25*len(document.body)))]
 		best.sort(key=self.orig_order)
 		self.printer(best)
+		print()
 
 	def printer(self, body):
 		for i in body:
@@ -95,6 +102,10 @@ class selector:
 			print()
 			for j in i:
 				print(j,end=" ")
+
+	def strip_stop(self,sentence):
+		ret = sentence.copy()
+		ret = [w for w in ret if w not in self.stop]
 
 			
 
