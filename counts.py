@@ -1,6 +1,9 @@
 import os  
 from collections import defaultdict
 import re
+
+
+#contains methods that count the number of documents each word occurs in
 class doc_count:
 	doc_map = defaultdict(int)     #map of word,count pairs where count is the
 									#number of documents that word appears in
@@ -41,7 +44,7 @@ class doc_count:
 	def get_num_docs(self):
 		return self.N
 
-
+#contains methods to get counts of the words in the current document
 class word_count:
 	body = None
 	word_map = defaultdict(int)
@@ -64,6 +67,9 @@ class word_count:
 		return self.word_map
 
 
+
+#represents a document, which has a title and a body
+#the body is a list of sentences, which are themselves lists of words
 class document:
 	body = None
 	title = None

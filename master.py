@@ -5,8 +5,8 @@ import counts
 def main():
 
 	folder = "reuters/training"
-	#document = "reuters/test/14890"
-	document = "nytimestest"
+	document = "reuters/test/15549"
+	#document = "nytimestest"
 	doc_count = counts.doc_count(folder,False)
 	word_count = counts.word_count(document,False)
 	document = counts.document(document)
