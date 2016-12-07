@@ -37,7 +37,6 @@ class selector:
 		#page 771 jurafsky has formula
 		#tf_{i,j} is number of times words j appears in doc i
 
-
 		#iterate over words that are in both x and y
 			#compute tf_{w,x}tf_{w,y}(idf_w)^2
 		#divide that by: sqrt of sum over each freq count x_i of x
@@ -92,9 +91,9 @@ class selector:
 			print(j,end=" ")
 		print()
 		doc = self.document.body.copy()
-		doc.sort(key=self.centrality,reverse=False)
-		for i in doc:
-			print(self.centrality(i))
+		doc.sort(key=self.centrality,reverse=True)
+		#for i in doc:
+		#	print(self.centrality(i))
 		best = doc[:max(1,int(0.25*len(document.body)))]
 		best.sort(key=self.orig_order)
 		self.printer(best)
