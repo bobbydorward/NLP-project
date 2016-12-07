@@ -1,6 +1,7 @@
 
 import content_selection
 import counts
+import TransitionNGrams
 
 def main():
 
@@ -11,6 +12,7 @@ def main():
 	word_count = counts.word_count(document,False)
 	document = counts.document(document)
 	selector = content_selection.selector(doc_count,word_count,document)
+	TransitionNGrams.transition_n_grams(doc_count, document).order(selector.summary)
 
 
 if __name__=='__main__':
