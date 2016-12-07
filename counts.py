@@ -23,6 +23,7 @@ class doc_count:
 			if fn == "CONTENTS" or fn=="README" or fn=="cats.txt" or fn[0]==".":
 				continue
 			try:
+				print(fn)
 				doc = document('./'+folder+'/'+fn)
 				lines = doc.body
 				self.docs.append(lines)
@@ -90,7 +91,6 @@ class document:
 			if(len(line)>0):
 				lines.append(line)
 		self.body = lines
-
 
 	#currently unused
 	def stem_body(self):

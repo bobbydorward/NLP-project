@@ -6,3 +6,5 @@ __pycache__/counts.cpython-35.pyc
 *.pyc
 
 *.pyc
+
+__pycache__/TransitionNGrams.cpython-35.pyc
