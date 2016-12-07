@@ -79,8 +79,10 @@ class document:
 		self.initialize(file)
 
 	def initialize(self,file):
-		p = re.compile("\.\"?[\n]")
+		p = re.compile("\.\"?[\s]")
 		self.title = file.readline().split()
+		while self.title == []:
+			self.title = file.readline().split()
 		all_lines = file.read()
 		split_lines = p.split(all_lines)
 		lines = []

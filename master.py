@@ -4,9 +4,9 @@ import counts
 
 def main():
 
-	folder = "reuters/training"
+	folder = "OANC-GrAF/all"
 	document = "reuters/test/14890"
-	#document = "nytimestest"
+	document = "OANC-GrAF/Budapest-History.txt"
 	doc_count = counts.doc_count(folder,False)
 	word_count = counts.word_count(document,False)
 	document = counts.document(document)

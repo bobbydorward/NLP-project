@@ -94,7 +94,7 @@ class selector:
 		doc.sort(key=self.centrality,reverse=True)
 		#for i in doc:
 		#	print(self.centrality(i))
-		best = doc[:max(1,int(0.25*len(document.body)))]
+		best = doc[:max(1,int(0.1*len(document.body)))]
 		best.sort(key=self.orig_order)
 		self.printer(best)
 		print()
