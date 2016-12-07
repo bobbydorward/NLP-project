@@ -15,7 +15,7 @@ class transition_n_grams:
 			prevline = None
 			for line in doc :
 				line = line[:-1]
-				if prevline != None :
+				if prevline != None and len(prevline) != 0 and len(line) != 0:
 					self.ngramfrequencies[(prevline[len(prevline)-1], line[0])] += 1
 				prevline = line
 
