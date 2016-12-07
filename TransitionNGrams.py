@@ -34,5 +34,4 @@ class transition_n_grams:
 			for nextsentenceindex in range(prevsentenceindex+1, len(summary)) :
 				if transitionweights[(prevsentenceindex, nextsentenceindex)] > transitionweights[(prevsentenceindex, prevsentenceindex+1)] :
 					summary.insert(prevsentenceindex+1, summary[nextsentenceindex])
-		print(transitionweights)
 

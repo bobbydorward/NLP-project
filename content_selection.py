@@ -85,9 +85,9 @@ class selector:
 		self.doc_count = doc_counter.get_num_docs()
 		self.document = document
 
-		self.printer(self.document.body)
-		print()
-		print("summary")
+		#self.printer(self.document.body)
+		#print()
+		print("Summary:")
 		for j in self.document.title:
 			print(j,end=" ")
 		print()
