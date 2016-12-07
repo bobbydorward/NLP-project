@@ -21,6 +21,7 @@ class selector:
 	word_map = None
 	doc_count =0
 	document = None
+	summary = None
 	def tf(self,w,x):
 		return self.word_map[w]
 		#the count of how many times w occurs in x
@@ -98,6 +99,7 @@ class selector:
 		best.sort(key=self.orig_order)
 		self.printer(best)
 		print()
+		self.summary = best
 
 	def printer(self, body):
 		for i in body:
@@ -105,6 +107,9 @@ class selector:
 			print()
 			for j in i:
 				print(j,end=" ")
+
+	def get_summary(self):
+		return self.summary
 
 	# def strip_stop(self,sentence):
 	# 	ret = sentence.copy()
