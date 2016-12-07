@@ -1,6 +1,11 @@
 import os  
 from collections import defaultdict
 import re
+#import nltk
+from nltk.tokenize import sent_tokenize
+from nltk.stem.snowball import SnowballStemmer
+import sys
+sys.path.append("./nltk")
 
 
 #contains methods that count the number of documents each word occurs in
@@ -17,7 +22,6 @@ class doc_count:
 		for fn in os.listdir('./'+folder):
 			if fn == "CONTENTS" or fn=="README" or fn=="cats.txt" or fn[0]==".":
 				continue
-			print(fn)
 			try:
 				doc = document('./'+folder+'/'+fn)
 				lines = doc.body
@@ -49,11 +53,7 @@ class word_count:
 	body = None
 	word_map = defaultdict(int)
 	def __init__(self,file,POS_flag):
-		try:
-			doc = document(file)
-		except:
-			print("faliure")
-			exit(1)
+		doc = document(file)
 		self.body = doc.body
 		self.fill_word_map(self.body)
 
@@ -73,24 +73,33 @@ class word_count:
 class document:
 	body = None
 	title = None
+	stemmed_body = None
+
+
 
 	def __init__(self, file_name):
 		file = open(file_name)
 		self.initialize(file)
 
 	def initialize(self,file):
-		p = re.compile("\.\"?[\s]")
 		self.title = file.readline().split()
-		while self.title == []:
-			self.title = file.readline().split()
-		all_lines = file.read()
-		split_lines = p.split(all_lines)
+		split_lines = sent_tokenize(file.read())
 		lines = []
 		for line in split_lines:
 			line = line.split()
 			if(len(line)>0):
 				lines.append(line)
 		self.body = lines
+
+
+	#currently unused
+	def stem_body(self):
+		stemmer = SnowballStemmer("english")
+		self.stemmed_body = [[stemmer.stem(j) for j in i] for i in self.body]
+
+
+
+
 
 
 
