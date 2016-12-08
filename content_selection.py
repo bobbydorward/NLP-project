@@ -7,10 +7,13 @@
 #input will be a list of sentences
 #sentences will be lists of words, which will be strings
 
+import sys
 import math
 import counts
 from collections import defaultdict
 import collections
+sys.path.append('/pyStatParser-master/stat_parser')
+from nltk.parse.stanford import GenericStanfordParser
 
 class selector:
 
@@ -22,6 +25,7 @@ class selector:
 	doc_count =0
 	document = None
 	summary = None
+	parser_obj = None
 	def tf(self,w,x):
 		return self.word_map[w]
 		#the count of how many times w occurs in x
@@ -100,6 +104,10 @@ class selector:
 		self.printer(best)
 		print()
 		self.summary = best
+		self.parser_obj = GenericStanfordParser()
+		self.parse(best[0])
+
+
 
 	def printer(self, body):
 		for i in body:
@@ -110,6 +118,9 @@ class selector:
 
 	def get_summary(self):
 		return self.summary
+
+	def parse(self, sentence):
+		return self.parser_obj.parse(sentence)
 
 	# def strip_stop(self,sentence):
 	# 	ret = sentence.copy()
