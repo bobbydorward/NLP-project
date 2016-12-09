@@ -12,8 +12,10 @@ import math
 import counts
 from collections import defaultdict
 import collections
+import nltk
+import os
 sys.path.append('/pyStatParser-master/stat_parser')
-from nltk.parse.stanford import GenericStanfordParser
+#from nltk.parse
 
 class selector:
 
@@ -104,8 +106,13 @@ class selector:
 		self.printer(best)
 		print()
 		self.summary = best
-		self.parser_obj = GenericStanfordParser()
-		self.parse(best[0])
+		#self.parser_obj = GenericStanfordParser()
+		
+		self.output_POS(best)
+		os.system("javac *.java")
+		os.system("java Parser POS_tmp")
+		print(self.read_POS())
+		print(best)
 
 
 
@@ -121,6 +128,21 @@ class selector:
 
 	def parse(self, sentence):
 		return self.parser_obj.parse(sentence)
+
+	def output_POS(self, doc):
+		output = open("POS_tmp", 'w')
+		for sentence in doc:
+			pos = nltk.pos_tag(sentence)
+			for pair in pos:
+				output.write(pair[0]+ " " + pair[1]+ " ")
+			output.write("\n")
+		output.close()
+
+	def read_POS(self):
+		return open("POS_tmp_parsed").readlines()
+
+
+
 
 	# def strip_stop(self,sentence):
 	# 	ret = sentence.copy()

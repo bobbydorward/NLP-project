@@ -27,7 +27,6 @@ public class Tree {
   }
 
   public String schemePrint(){
-    System.out.println(schemePrintHelper());
     return schemePrintHelper();
   }
 

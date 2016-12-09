@@ -138,16 +138,16 @@ public class Parser{
         while (s.hasNextLine()){
             String l = s.nextLine();
             Scanner s2 = new Scanner(l);
-            ArrayList<String> sentence = new ArrayList<String>();
+            ArrayList<TaggedWord> sentence = new ArrayList<TaggedWord>();
             while (s2.hasNext()){
                 String word = s2.next();
-                sentence.add(word);
+                String tag = s2.next();
+                sentence.add(new TaggedWord(word,tag));
             }
-            System.out.println(parseStrings(sentence));
             if(sentence.size()==0){
                 continue;
             }
-            parsed_doc.add(parseStrings(sentence));
+            parsed_doc.add(parseTaggedWords(sentence));
         }
         PrintWriter writer=null;
         try{
@@ -159,14 +159,10 @@ public class Parser{
             System.err.println("no file");
             System.exit(1);
         }
-        System.out.println(parsed_doc);
         for(Tree t : parsed_doc){
-            System.out.println(t);
             writer.println(t.schemePrint());
         }
         writer.close();
-
-
     }
     
     public Tree parseStrings(List<String> sentence){
