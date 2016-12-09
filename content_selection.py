@@ -28,8 +28,42 @@ class selector:
 	document = None
 	summary = None
 	parser_obj = None
-
 	raw_parse_summary = None
+
+	def __init__(self,doc_counter,word_counter,document):
+		self.doc_counter = doc_counter
+		self.word_counter = word_counter
+		self.word_map = word_counter.get_word_map()
+		self.doc_map = doc_counter.get_doc_map()
+		self.doc_count = doc_counter.get_num_docs()
+		self.document = document
+
+		#self.printer(self.document.body)
+		#print()
+		print("Summary:")
+		for j in self.document.title:
+			print(j,end=" ")
+		print()
+		doc = self.document.body.copy()
+		doc.sort(key=self.centrality,reverse=True)
+		#for i in doc:
+		#	print(self.centrality(i))
+		best = doc[:max(1,int(0.1*len(document.body)))]
+		best.sort(key=self.orig_order)
+		self.printer(best)
+		print()
+		self.summary = best
+		#self.parser_obj = GenericStanfordParser()
+		
+		self.output_POS(best)
+		os.system("javac *.java")
+		os.system("java Parser POS_tmp")
+		print(self.read_POS())
+		print(best)
+		self.raw_parse_summary = self.read_POS()
+
+		os.system("rm *.class POS_tmp POS_tmp_parsed")
+
 
 
 	def tf(self,w,x):
@@ -87,37 +121,6 @@ class selector:
 	def orig_order(self,x):
 		return self.document.body.index(x)
 
-	def __init__(self,doc_counter,word_counter,document):
-		self.doc_counter = doc_counter
-		self.word_counter = word_counter
-		self.word_map = word_counter.get_word_map()
-		self.doc_map = doc_counter.get_doc_map()
-		self.doc_count = doc_counter.get_num_docs()
-		self.document = document
-
-		#self.printer(self.document.body)
-		#print()
-		print("Summary:")
-		for j in self.document.title:
-			print(j,end=" ")
-		print()
-		doc = self.document.body.copy()
-		doc.sort(key=self.centrality,reverse=True)
-		#for i in doc:
-		#	print(self.centrality(i))
-		best = doc[:max(1,int(0.1*len(document.body)))]
-		best.sort(key=self.orig_order)
-		self.printer(best)
-		print()
-		self.summary = best
-		#self.parser_obj = GenericStanfordParser()
-		
-		self.output_POS(best)
-		os.system("javac *.java")
-		os.system("java Parser POS_tmp")
-		print(self.read_POS())
-		print(best)
-		self.raw_parse_summary = self.read_POS()
 
 
 
@@ -146,7 +149,8 @@ class selector:
 	def read_POS(self):
 		return open("POS_tmp_parsed").readlines()
 
-
+	def get_raw_parse(self):
+		return self.raw_parse_summary
 
 
 	# def strip_stop(self,sentence):
