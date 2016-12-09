@@ -28,6 +28,10 @@ class selector:
 	document = None
 	summary = None
 	parser_obj = None
+
+	raw_parse_summary = None
+
+
 	def tf(self,w,x):
 		return self.word_map[w]
 		#the count of how many times w occurs in x
@@ -113,6 +117,7 @@ class selector:
 		os.system("java Parser POS_tmp")
 		print(self.read_POS())
 		print(best)
+		self.raw_parse_summary = self.read_POS()
 
 
 
