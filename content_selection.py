@@ -14,6 +14,7 @@ from collections import defaultdict
 import collections
 import nltk
 import os
+import parse_tree
 sys.path.append('/pyStatParser-master/stat_parser')
 #from nltk.parse
 
@@ -29,6 +30,9 @@ class selector:
 	summary = None
 	parser_obj = None
 	raw_parse_summary = None
+	parse_summary = None
+
+	current_pruned = None
 
 	def __init__(self,doc_counter,word_counter,document):
 		self.doc_counter = doc_counter
@@ -55,6 +59,8 @@ class selector:
 		self.summary = best
 		#self.parser_obj = GenericStanfordParser()
 		
+
+		#get parsetrees
 		self.output_POS(best)
 		os.system("javac *.java")
 		os.system("java Parser POS_tmp")
@@ -63,6 +69,15 @@ class selector:
 		self.raw_parse_summary = self.read_POS()
 
 		os.system("rm *.class POS_tmp POS_tmp_parsed")
+		print(parse_tree.parse_tree(self.raw_parse_summary[0]))
+		print(parse_tree.parse_tree(self.raw_parse_summary[0]).get_sentence())
+		ab= parse_tree.parse_tree(self.raw_parse_summary[0]).get_all_pruned_sentences()
+		for a in ab:
+			print(a)
+		self.parse_summary = [parse_tree.parse_tree(raw) for raw in self.raw_parse_summary]
+		self.prune()
+
+
 
 
 
@@ -147,7 +162,8 @@ class selector:
 		output.close()
 
 	def read_POS(self):
-		return open("POS_tmp_parsed").readlines()
+		lines = open("POS_tmp_parsed").readlines()
+		return [ line[:-1] for line in lines]
 
 	def get_raw_parse(self):
 		return self.raw_parse_summary
@@ -158,5 +174,35 @@ class selector:
 	# 	ret = [w for w in ret if not w in self.stop]
 	# 	return ret
 
-			
+	def prune(self):
+		self.current_pruned = []
+		ret = []
+		for tree in self.parse_summary:
+			phrases = tree.get_all_pruned_sentences()
+			ranked = []
+			for phrase in phrases:
+				ranked.append((self.centrality(phrase),phrase))
+			ranked.sort(reverse=True)
+			ret.append(ranked[0])
+		ret = [pair[1] for pair in ret]
+		self.printer(ret)
+		return None
+
+	def prune_helper(self, cur_tree):
+		
+		#try removing all children and compute centrality for each choice
+		#append choices and their score to current_pruned
+		# recurse on children
+
+		string = cur_tree.string
+		for c in cur_tree.children:
+			new_tree = parse_tree.parse_tree(string)
+			new_tree.children.remove(c)
+			print(new_tree.children)
+			sentence = new_tree.get_sentence()
+			print(sentence)
+			cent = self.centrality(sentence)
+
+
+
 

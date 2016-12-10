@@ -124,7 +124,7 @@ public class Parser{
             }
         }
     }
-
+    @SuppressWarnings("unchecked")
     public void parseFile(String filename){
         Scanner s = null;
         try{
@@ -164,7 +164,7 @@ public class Parser{
         }
         writer.close();
     }
-    
+    @SuppressWarnings("unchecked")
     public Tree parseStrings(List<String> sentence){
         //initialize table
         table = new ArrayList<ArrayList<HashMap<Nonterminal,Tree>>>();
@@ -280,7 +280,7 @@ public class Parser{
         Tree finalTree = table.get(0).get(sentence.size()).get(new Nonterminal("S"));
         return finalTree;
     }
-    
+    @SuppressWarnings("unchecked")
     public Tree parseTaggedWords(List<TaggedWord> sentence){
         //initialize table
         table = new ArrayList<ArrayList<HashMap<Nonterminal,Tree>>>();
