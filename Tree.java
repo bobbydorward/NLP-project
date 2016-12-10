@@ -37,7 +37,7 @@ public class Tree {
     if(nchildren ==1){
       return "("+this.symbol+" "+lchild.schemePrintHelper()+")";
     }
-    return "("+this.symbol + lchild.schemePrintHelper() +" "+ rchild.schemePrintHelper()+")";
+    return "("+this.symbol +" "+ lchild.schemePrintHelper() +" "+ rchild.schemePrintHelper()+")";
   }
   
   private String toString(String pre){
