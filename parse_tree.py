@@ -1,4 +1,5 @@
 
+import sys
 
 
 class parse_tree :
@@ -14,27 +15,32 @@ class parse_tree :
 		currentchildparens = 0
 		for symbol in parse_string[1:] :
 			if firstparens :
-				if symbol is '(' or symbol is ')' :
+				if not self.tag is "" and symbol is '(' or symbol is ')' :
 					currentchildparens += 1
 					currentchildstring += symbol
 					firstparens = False
-					#print(self.tag)
 				else :
 					self.tag += symbol
 			else :
 				if symbol is ')' :
 					currentchildstring += symbol
 					currentchildparens -= 1;
-					if currentchildparens is 0 :
-						self.children.append(parse_tree(currentchildstring))
+					if currentchildparens is 0:
+						if not currentchildstring is " " :
+							self.children.append(parse_tree(currentchildstring))
 						currentchildstring = ""
 				elif symbol is '(' :
 					currentchildstring += symbol
 					self.isLex = False
-					#print(self.tag, "is not lex")
 					currentchildparens += 1
 				else :
 					currentchildstring += symbol
+		if self.tag[0] is "(" :
+			self.tag = self.tag[1:]
+		if self.tag[-1] is " " :
+			self.tag = self.tag[:-1]
+
+
 	def __str__(self):
 		ret = "(" +self.tag
 		for c in self.children:
@@ -72,7 +78,6 @@ class parse_tree :
 		return ret
 
 
-
 	def get_all_subtree_sentences(self,acc):
 		if self.get_sentence() not in acc and len(self.get_sentence())>1:
 			acc.append(self.get_sentence())
@@ -80,9 +85,3 @@ class parse_tree :
 			c.get_all_subtree_sentences(acc)
 
 
-
-
-# schemetree = "(dog(park(cat)(catdog))(catdogpark))"
-# print(schemetree)
-# a= parse_tree(schemetree)
-# print(a)
