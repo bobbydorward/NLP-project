@@ -52,7 +52,7 @@ class selector:
 		doc.sort(key=self.centrality,reverse=True)
 		#for i in doc:
 		#	print(self.centrality(i))
-		best = doc[:max(1,int(0.1*len(document.body)))]
+		best = doc[:max(1,int(0.25*len(document.body)))]
 		best.sort(key=self.orig_order)
 		self.printer(best)
 		print()
@@ -174,6 +174,23 @@ class selector:
 	# 	ret = [w for w in ret if not w in self.stop]
 	# 	return ret
 
+
+	# def prune(self):
+	# 	ret = []
+	# 	for tree in self.parse_summary:
+	# 		phrases = []
+	# 		ranked = []
+	# 		tree.get_all_subtree_sentences(phrases)
+	# 		for phrase in phrases:
+	# 			ranked.append((self.centrality(phrase),phrase))
+	# 		ranked.sort()
+	# 		ret.append(ranked[0])
+	# 	print(ret)
+	# 	ret = [pair[1] for pair in ret]
+	# 	self.printer(ret)
+
+
+#first attempt at pruning
 	def prune(self):
 		self.current_pruned = []
 		ret = []
