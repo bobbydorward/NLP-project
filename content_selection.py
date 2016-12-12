@@ -160,6 +160,7 @@ class selector:
 			print()
 			for j in i:
 				print(j,end=" ")
+		print()
 
 	def get_summary(self):
 		return self.summary
