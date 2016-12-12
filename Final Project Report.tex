@@ -1,8 +1,81 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb,amsfonts,amsthm,mathtools,float,color}
+\usepackage{caption,subcaption,tikz,gensymb,pgfplots}
+\pgfplotsset{compat = newest}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\usepackage[hmargin=1in,vmargin=1in]{geometry}
+\newcommand{\si}{\sigma}
+\DeclareMathOperator{\lb}{lb}
+\DeclareMathOperator{\ls}{ls}
+\DeclareMathOperator{\rb}{rb}
+\DeclareMathOperator{\rs}{rs}
+\DeclareMathOperator{\LB}{LB}
+\DeclareMathOperator{\Max}{Max}
+\DeclareMathOperator{\LS}{LS}
+\DeclareMathOperator{\RB}{RB}
+\DeclareMathOperator{\RS}{RS}
+\DeclareMathOperator{\hook}{hook}
+      \theoremstyle{plain}
+      \newtheorem{theorem}{Theorem}[section]
+      \newtheorem{lemma}[theorem]{Lemma}
+      \newtheorem{corollary}[theorem]{Corollary}
+      \newtheorem{proposition}[theorem]{Proposition}
+      \theoremstyle{definition}
+      \newtheorem{definition}[theorem]{Definition}
+      \theoremstyle{remark}
+      \newtheorem{remark}[theorem]{Remark}
+      \theoremstyle{plain}
+      \newtheorem{conjecture}{Conjecture}[section]
+\def\vs{\vspace{1\baselineskip}}
+\def\svs{\vspace{.5\baselineskip}}
+\def\bs{\vspace{5\baselineskip}}
+\def\zik{\mathcal{Z}_{i,k}}
+\def\setzik{\{\mathcal{Z}\}_k}
+\def\Z{\mathcal{Z}}
+%\newcommand{\tre}[1]{\textcolor{red}{}}
+\newcommand{\tre}{\textcolor{red}}
+\newcommand{\tbl}[1]{\textcolor{blue}{}}
+\newcommand{\tgr}[1]{\textcolor{green}{}}
+\DeclareMathOperator{\WLB}{WLB}
+\DeclareMathOperator{\WLS}{WLS}
+\DeclareMathOperator{\WRB}{WRB}
+\DeclareMathOperator{\WRS}{WRS}
+\DeclareMathOperator{\WF}{WF}
+\DeclareMathOperator{\W}{\mathcal{W}}
+\def\zik{\mathcal{Z}_{i,k}}
+\def\setzik{\{\mathcal{Z}\}_k}
+\def\Z{\mathcal{Z}}
+\def\M{{\bf M}}
+\def\l{\ell}
+\def\multiset#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+\newcommand{\Rtil}{\widetilde{R}}
+\newcommand{\LBtil}{\widetilde{\LB}}
+\newcommand{\LStil}{\widetilde{\LS}}
+\newcommand{\RBtil}{\widetilde{\RB}}
+\newcommand{\RStil}{\widetilde{\RS}}
+\newcommand{\gauss}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}} 
+\newcommand{\TODO}{\tre{TODO!!!!!!}}
+\newcommand{\interesting}{\tre{SUPER INTERESTING\\}}
+\newcommand{\figureout}{\tre{Need to figure this out\\}}
+\newcommand{\N}{\mathbb{N}}
+
+
+\begin{document}
+\author{Bobby Dorward and Ryan Wilson}
+\title{Semi-supervised Document Summary}
+\maketitle
+
+
+
+
+
+
 NLP Final Project Report- Single-document Summarization
 
 	In our final project, we looked at the problem of single-document summarization. That is, we attempted to write a program to read in a document, and output a short summary of the document. Our summaries are general summaries rather than query-based summaries, and we generate extracts rather than abstracts for our summaries (meaning that our summaries are made using specific informative sentences extracted from our document, rather than being fully self-generated using the extracted raw information).
 	Since summarization is a complex task, it poses a particularly interesting natural language processing problem. For a human, summarization requires a moderately complex understanding of a document; critical information must be understood and prioritized, combined into a cohesive set of concepts, then put into words in a way that will both maintain the meaning of the high-priority concepts, and make sense in terms of the rules of the language in which the summary is written. These steps are modified, of course, by probabilistic approaches that simplify the nature of each of these problems.
-	We consulted the Jurafsky & Martin textbook, specifically Chapter 23, entitled ?Question Answering and Summarization?, as well as the article ?A Statistical Approach for Document Summarization? from the Department of Computer Engineering at the Fr. C. Rodrigues Institute of Technology. Chapter 23 of the textbook discusses multi- and single-document summarization and gives a brief discussion of different ways to solve different subproblems of the summarization problem. The article mentioned above attempts to accomplish its own specific task (query-based abstract summarization based on a given query, generated using two or more web documents, which are selected based on the provided query). We consider their techniques and alternative modified approaches to the problem formulated by ourselves throughout the course of the project, as well as their results, to learn more about the nature of these algorithms and how to further refine our own approach.
+	We consulted the Jurafsky \& Martin textbook, specifically Chapter 23, entitled ?Question Answering and Summarization?, as well as the article ?A Statistical Approach for Document Summarization? from the Department of Computer Engineering at the Fr. C. Rodrigues Institute of Technology. Chapter 23 of the textbook discusses multi- and single-document summarization and gives a brief discussion of different ways to solve different subproblems of the summarization problem. The article mentioned above attempts to accomplish its own specific task (query-based abstract summarization based on a given query, generated using two or more web documents, which are selected based on the provided query). We consider their techniques and alternative modified approaches to the problem formulated by ourselves throughout the course of the project, as well as their results, to learn more about the nature of these algorithms and how to further refine our own approach.
 Implementation:
 Document summarization can be broken down into 3 subproblems; content selection (extracting summary-worthy material), information ordering (putting together the selected content), and sentence realization (?cleaning up? the ordered information such that it is concise, cohesive, and sensical). For content selection, we start by assigning each sentence in the document an ?information content? score. Then, we rank these sentences by information content, and finally select the top X\% of ranked sentences, where X is a parameter set in our code (10\% by default). [BOBBY]
 	Next, we implemented information ordering. Standard practice for this is very simple- most often, sentences from such a summary are simply ordered in the same relative order they had in the original document. However, one of our goals that developed as we worked on the project was to experiment with slightly different approaches. We did one such experiment with information ordering. We attempted to use an n-gram approach to look for higher-probability sentence transitions, i.e. we attempted to slightly rearrange sentence ordering to reflect sentences to accommodate any sentence transitions which, according to our n-gram approach, are likely to appear. 
@@ -16,4 +89,7 @@ Initially, we intended to use a variety of different genres of document, so to s
 Results:
 	Given that document summarization is an unsupervised learning problem, it was particularly difficult to evaluate the ?success? of our program. However, we did have 2 different methods for evaluation in mind. First we have ROUGE, a program built by a USC grad student which provides a measure of how ?good? a summary is. We acquired this program and installed in on my laptop, but upon inspection of Chin-Yew Lin (the creator of ROUGE)'s paper ROUGE: A Package for Automatic Evaluation of Summaries, we realized that ROUGE was made for the evaluation of abstract rather than extract summaries, and under the hood it operated using an n-gram model. Since we use sentences copied (albeit somewhat edited) from the original document, this method would be confounding and produce poor evaluation results.
 We also considered a process by which one of us writes questions about a document, while the other one writes a summary. We would then randomly assign some human subjects either a human-made summary or a summary assembled by our program, and pose the questions that were written about that document. We would look at the the accuracy of their responses for both the human- and computer-generated summaries and compare the two. However, given the task of assembling a meaningful number of human subjects on which to run this test is outside of the scope of this project.
+
+
+\end{document}
 
