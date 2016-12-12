@@ -64,17 +64,18 @@ class selector:
 		self.output_POS(best)
 		os.system("javac *.java")
 		os.system("java Parser POS_tmp")
-		print(self.read_POS())
-		print(best)
+		#print(self.read_POS())
+		#print(best)
 		self.raw_parse_summary = self.read_POS()
 
 		os.system("rm *.class POS_tmp POS_tmp_parsed")
-		print(parse_tree.parse_tree(self.raw_parse_summary[0]))
-		print(parse_tree.parse_tree(self.raw_parse_summary[0]).get_sentence())
-		ab= parse_tree.parse_tree(self.raw_parse_summary[0]).get_all_pruned_sentences()
-		for a in ab:
-			print(a)
+		#print(parse_tree.parse_tree(self.raw_parse_summary[0]))
+		#print(parse_tree.parse_tree(self.raw_parse_summary[0]).get_sentence())
+		#ab= parse_tree.parse_tree(self.raw_parse_summary[0]).get_all_pruned_sentences()
+		#for a in ab:
+		#	print(a)
 		self.parse_summary = [parse_tree.parse_tree(raw) for raw in self.raw_parse_summary]
+		print("pruned summary")
 		self.prune()
 
 
