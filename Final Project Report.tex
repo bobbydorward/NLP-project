@@ -60,6 +60,7 @@
 \newcommand{\interesting}{\tre{SUPER INTERESTING\\}}
 \newcommand{\figureout}{\tre{Need to figure this out\\}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
 
 \begin{document}
@@ -81,7 +82,21 @@ Document summarization can be broken down into 3 subproblems; content selection 
 The first step is content selection, selecting sentences from the document to extract. To achieve this goal, we used a semi-supervised approach recommend by Jurafsky and Martin. There are two main ideas to this approach. The first is that we can think of sentences as bags of words, vectors in $n$-dimensional space, where $n$ is the number of unique words in our document $d$. The document is then a cluster and a sentence is worthy of being extracted if it is near the center of the cluster. In order for this approach to work, we need a measure of distance between sentences, which brings us to the other main idea of the method. We want to weight certain words in our sentence as more important than others based on two criteria. The first is that words that appear very frequently in the document are probably very important to the document. This is the \emph{term-frequency} measure
 $$tf(w) := \text{number of occurences of word $w$ in $d$}.$$ However, lots of words appear frequently without contributing any content. Some examples are articles, prepositions and other structural words. Therefore, we also weight words by whats called the \emph{inverse document frequency}
 $$idf(w) := \log\left(\frac{N}{N_w}\right),$$
-where $N$ is the total 
+where $N$ is the total numbers of documents in our corpora and $N_w$ is the number of documents in the corpora that contain $w$. A nice feature of the $idf$ is that it deals with stop words. If a word is in every document (e.g., ``the") then 
+$$idf(the) = \log(1) = 0$$
+and the word is not included in our estimates.
+We use these functions to create a feature vector $v_s = (v_1,v_2,\dots,v_n)$ for each sentence $s$, where
+$$v_i =\begin{cases}
+tf(w_i)idf(w_i) & \text{ if } w_i\in s\\
+0 &\text{otherwise.}
+\end{cases}$$
+We then can define our distance, which is really a measure of similarity because we want to choose sentences with a large distance from other sentences. The distance Jurafsky and Martin recommend is the cosine distance
+$$tf-idf-cosine(s_1,s_2) := \frac{ v_{s_1} \cdot v_{s_2}}{\norm{v_{s_1}}\norm{v_{s_1}}}.$$
+With our distance function we can define a measure of how central a sentence is to our cluster, which is just the average distance to all other sentences in the document
+$$centrality(s) := \frac{1}{|d|}\sum_{s'\in d} tf-idf-cosine(s,s'),$$
+where $|d|$ is the number of sentences in $d$. Thus, a sentence is good for our summary if $centrality(s)$ is large relative to the other sentences in the document. Therefore, we compute the centrality of each sentence and choose the best $X$\% of sentences in $d$, where we currently have the parameter $X=10$, though this could be changed depending on the desired summary length. These best sentences form the extract summary.
+
+
 
 	Next, we implemented information ordering. Standard practice for this is very simple- most often, sentences from such a summary are simply ordered in the same relative order they had in the original document. However, one of our goals that developed as we worked on the project was to experiment with slightly different approaches. We did one such experiment with information ordering. We attempted to use an n-gram approach to look for higher-probability sentence transitions, i.e. we attempted to slightly rearrange sentence ordering to reflect sentences to accommodate any sentence transitions which, according to our n-gram approach, are likely to appear. 
 The intuition behind this approach was that some sentence endings and beginnings have meaning that directly relates to the progression of ideas; for example, the word ?however? is often used in the beginning of a sentence to indicate a counterexample or contrasting statement to the sentence before. Therefore, if we have a ?sentence transition n-gram?, meaning an n-gram that includes words from two different sentences, that is ?... death penalty. However, ??, and we have two sentences in our summary: ?There was a great deal of support for the death penalty.? and ?However, a new study indicates that the death penalty is less humane than previously anticipated?, we might want to put those two together. Since there is a logical progression from the first sentence to the second, and this is reflected by the structure of the n-gram transition, we hope that making small adjustments to the ordering of the sentences based on these n-gram transitions would yield a more sensical and logical progression of ideas. 
