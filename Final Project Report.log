@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  12 DEC 2016 16:55
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  12 DEC 2016 16:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -795,20 +795,21 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 (./Final Project Report.aux) ) 
 Here is how much of TeX's memory you used:
- 20155 strings out of 493315
- 466593 string characters out of 6137904
- 622152 words of memory out of 5000000
- 23210 multiletter control sequences out of 15000+600000
- 6836 words of font info for 27 fonts, out of 8000000 for 9000
+ 20157 strings out of 493315
+ 466614 string characters out of 6137904
+ 632152 words of memory out of 5000000
+ 23211 multiletter control sequences out of 15000+600000
+ 7183 words of font info for 28 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  56i,6n,81p,1046b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr17.pfb>
-Output written on "Final Project Report.pdf" (3 pages, 40715 bytes).
+lic/amsfonts/cm/cmr17.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmti12.pfb>
+Output written on "Final Project Report.pdf" (3 pages, 52430 bytes).
 PDF statistics:
- 25 PDF objects out of 1000 (max. 8388607)
- 17 compressed objects within 1 object stream
+ 29 PDF objects out of 1000 (max. 8388607)
+ 20 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
