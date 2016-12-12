@@ -52,7 +52,7 @@ class selector:
 		doc.sort(key=self.centrality,reverse=True)
 		#for i in doc:
 		#	print(self.centrality(i))
-		best = doc[:max(1,int(0.25*len(document.body)))]
+		best = doc[:max(1,int(0.1*len(document.body)))]
 		best.sort(key=self.orig_order)
 		self.printer(best)
 		print()
@@ -121,6 +121,12 @@ class selector:
 		total = total/math.sqrt(next_total)
 		return total
 
+	def dot_product(self,x,y):
+		total = 0
+		for w in self.intersection(x,y):
+			total+=self.tf(w,x)*self.tf(w,y)*(self.idf(w)**2)
+		return total
+
 	def intersection(self,x,y):
 		return [w for w in x if w in y]
 
@@ -129,6 +135,14 @@ class selector:
 		for sentence in self.document.body:
 			total+=self.tf_idf_cosine(x,sentence)
 		total=total/len(self.document.body)
+		return total
+	def centrality(self,x, doc = None):
+		if doc == None:
+			doc = self.document.body
+		total = 0
+		for sentence in doc:
+			total+=self.tf_idf_cosine(x,sentence)
+		total=total/len(doc)
 		return total
 
 	def centrality_cmp(self,x,y):
@@ -198,27 +212,28 @@ class selector:
 			phrases = tree.get_all_pruned_sentences()
 			ranked = []
 			for phrase in phrases:
-				ranked.append((self.centrality(phrase),phrase))
+				ranked.append((math.log(len(phrase))*self.centrality(phrase),phrase))
 			ranked.sort(reverse=True)
+			#print(ranked)
 			ret.append(ranked[0])
 		ret = [pair[1] for pair in ret]
 		self.printer(ret)
 		return None
 
-	def prune_helper(self, cur_tree):
+	# def prune_helper(self, cur_tree):
 		
-		#try removing all children and compute centrality for each choice
-		#append choices and their score to current_pruned
-		# recurse on children
+	# 	#try removing all children and compute centrality for each choice
+	# 	#append choices and their score to current_pruned
+	# 	# recurse on children
 
-		string = cur_tree.string
-		for c in cur_tree.children:
-			new_tree = parse_tree.parse_tree(string)
-			new_tree.children.remove(c)
-			print(new_tree.children)
-			sentence = new_tree.get_sentence()
-			print(sentence)
-			cent = self.centrality(sentence)
+	# 	string = cur_tree.string
+	# 	for c in cur_tree.children:
+	# 		new_tree = parse_tree.parse_tree(string)
+	# 		new_tree.children.remove(c)
+	# 		print(new_tree.children)
+	# 		sentence = new_tree.get_sentence()
+	# 		print(sentence)
+	# 		cent = self.centrality(sentence)
 
 
 
