@@ -91,7 +91,7 @@ tf(w_i)idf(w_i) & \text{ if } w_i\in s\\
 0 &\text{otherwise.}
 \end{cases}$$
 We then can define our distance, which is really a measure of similarity because we want to choose sentences with a large distance from other sentences. The distance Jurafsky and Martin recommend is the cosine distance
-$$tf-idf-cosine(s_1,s_2) := \frac{ v_{s_1} \cdot v_{s_2}}{\norm{v_{s_1}}\norm{v_{s_1}}}.$$
+$$tf-idf-cosine(s_1,s_2) := \frac{ v_{s_1} \cdot v_{s_2}}{\norm{v_{s_1}}\norm{v_{s_2}}}.$$
 With our distance function we can define a measure of how central a sentence is to our cluster, which is just the average distance to all other sentences in the document
 $$centrality(s) := \frac{1}{|d|}\sum_{s'\in d} tf-idf-cosine(s,s'),$$
 where $|d|$ is the number of sentences in $d$. Thus, a sentence is good for our summary if $centrality(s)$ is large relative to the other sentences in the document. Therefore, we compute the centrality of each sentence and choose the best $X$\% of sentences in $d$, where we currently have the parameter $X=10$, though this could be changed depending on the desired summary length. These best sentences form the extract summary.
@@ -156,7 +156,7 @@ In 1997 Hungary was offered membership in the NATO."
 	
 We also considered a process by which one of us writes questions about a document, while the other one writes a summary. We would then randomly assign some human subjects either a human-made summary or a summary assembled by our program, and pose the questions that were written about that document. We would look at the the accuracy of their responses for both the human- and computer-generated summaries and compare the two. However, given the task of assembling a meaningful number of human subjects on which to run this test is outside of the scope of this project.
 
-Given how difficult it is to evaluate how good a summary is, perhaps the best way to evaluate a summary is the eye test.
+Given how difficult it is to evaluate how good a summary is, perhaps the best way to evaluate a summary is the eye test. As such, we've included three versions of the same summary with different pruning. Figure~\ref{rawsummary} gives the raw extract summary with no pruning. We can see that it does a pretty good job at grabbing sentences that are relevant to the document, though it could clearly use some pruning. Figure~\ref{badsummary} shows the first attempt at pruning, which computes the centrality of each subtree and takes the best for each sentence. As we can see, this is good at picking out key words, but destroys the meaning of the sentence. Figure~\ref{goodsummary}, our final implementation, strikes a good balance between the two by weighting each subtree by the log of its length. Examining the first sentence of each gives a good feel for how each does. The first sentence of Figure~\ref{rawsummary} has a lot of information but is overly specific for a summary. The first sentence of Figure~\ref{badsummary} is just hilariously wrong. The first sentence of Figure~\ref{goodsummary} prunes some of the unnecessary information from the sentence, but leaves the overall structure intact.
 
 
 
