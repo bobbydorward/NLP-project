@@ -67,8 +67,6 @@ class selector:
 		self.output_POS(best)
 		os.system("javac *.java")
 		os.system("java Parser POS_tmp")
-		#print(self.read_POS())
-		#print(best)
 		self.raw_parse_summary = self.read_POS()
 
 		os.system("rm *.class POS_tmp POS_tmp_parsed")
@@ -77,22 +75,25 @@ class selector:
 		self.parse_summary = [parse_tree.parse_tree(raw) for raw in self.raw_parse_summary]
 		print("Pruned summary:")
 		print()
+
+		#prune the summary
 		self.prune()
 
 
 
 
-
+	#compute the tf of w
 	def tf(self,w,x):
 		return self.word_map[w]
 		#the count of how many times w occurs in x
 
+	#compute the idf of w
 	def idf(self,w):
 		return math.log((self.doc_count+1)/(self.doc_map[w]+1))
 		#log(N/n_w) where N is the total number of docs
 		#and n_w is the number of docs with word w
 
-
+	#compute the distance between x and y
 	def tf_idf_cosine(self,x,y):
 
 		#compute the weighted cosine between x and y 
@@ -105,12 +106,6 @@ class selector:
 			#(tf_{x_i,x}idf_{x_i})^2
 		#same with y
 		total = 0
-		#print("next")
-		#print(x)
-		#print(y)
-		#print(self.intersection(x,y))
-		#x = self.strip_stop(x)
-		#y = self.strip_stop(y)
 		for w in self.intersection(x,y):
 			total+=self.tf(w,x)*self.tf(w,y)*(self.idf(w)**2)
 		next_total = 0
@@ -129,9 +124,11 @@ class selector:
 			total+=self.tf(w,x)*self.tf(w,y)*(self.idf(w)**2)
 		return total
 
+	#get the intersection of two sentences 
 	def intersection(self,x,y):
 		return [w for w in x if w in y]
 
+	#compute the centrality of x
 	def centrality(self,x):
 		total = 0
 		for sentence in self.document.body:
@@ -147,6 +144,7 @@ class selector:
 		total=total/len(doc)
 		return total
 
+	#comparators for sorting
 	def centrality_cmp(self,x,y):
 		return centrality(x)-centrality(y)
 	def orig_order(self,x):
@@ -154,7 +152,7 @@ class selector:
 
 
 
-
+	#prints a document
 	def printer(self, body):
 		for i in body:
 			print()
@@ -169,6 +167,7 @@ class selector:
 	def parse(self, sentence):
 		return self.parser_obj.parse(sentence)
 
+	#output the POS so that we can use the CKY parser from the lab
 	def output_POS(self, doc):
 		output = open("POS_tmp", 'w')
 		for sentence in doc:
@@ -178,6 +177,7 @@ class selector:
 			output.write("\n")
 		output.close()
 
+	#read back in the parse tree form the java program
 	def read_POS(self):
 		lines = open("POS_tmp_parsed").readlines()
 		return [ line[:-1] for line in lines]
@@ -186,12 +186,7 @@ class selector:
 		return self.raw_parse_summary
 
 
-	# def strip_stop(self,sentence):
-	# 	ret = sentence.copy()
-	# 	ret = [w for w in ret if not w in self.stop]
-	# 	return ret
-
-
+#first attempt at pruning
 	# def prune(self):
 	# 	ret = []
 	# 	for tree in self.parse_summary:
@@ -207,7 +202,7 @@ class selector:
 	# 	self.printer(ret)
 
 
-#first attempt at pruning
+#second attempt at pruning
 	def prune(self):
 		self.current_pruned = []
 		ret = []
