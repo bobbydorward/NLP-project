@@ -125,7 +125,18 @@ Initially, we intended to use a variety of different genres of document and trai
 
 	In Figure~\ref{goodsummary} we have an example of a summary produced by our final implementation running on a document about the history of Budapest.
 
-	
+\begin{figure}
+	``Around the third century b.c., Hungary was occupied by a Celtic-Illyrian tribe known as Eraviscans, refugees from wars in Greece.
+Hungary remained beyond the reach of western Europe until the first century a.d., when the Roman empire's legions advanced and pushed its northeast frontier to the Danube.
+Hungary was effectively dismembered: the north and west fell to the Habsburgs; Transylvania became a so-called independent principality under Turkish auspices; and central Hungary came under direct Turkish rule.
+In 1867, under a compromise designed to curtail home-rule agitation, the Austro-Hungarian empire was established and Hungary was finally granted its own government, though key ministries were shared with the Austrians.
+Meanwhile, the aftermath of war, as dictated by the 1920 Treaty of Trianon, was to cost Hungary very dearly.
+Hitler's Germany, meanwhile, provided investment in Hungarian industry and a market for Hungarian farm produce, and earned a grudging admiration from the Hungarians for its defiance of the World War I allies.
+In 1940 Hungary allowed the German army to cross its territory and, as a reward, they temporarily recovered parts of its former lands from Romania and Yugoslavia.
+Hungary was the first country to draw back its Iron Curtain, dismantling the barbed wire along its Austrian border and allowing East Germans to escape to the West.
+In 1997 Hungary was offered membership in the NATO."
+\caption{The unpruned summary for a document on the history of Budapest.}\label{rawsummary}
+\end{figure}
 	
 \begin{figure}
 "Around the third century b.c., Hungary was Greece. Hungary remained beyond the reach of western Europe until the first century a.d., when the Roman legions advanced and pushed its northeast frontier to the Danube. Hungary was effectively dismembered: the north and west fell to the Habsburgs; Transylvania became a so-called independent principality under Turkish auspices; and central Hungary came under rule. In 1867, under a compromise designed to curtail home-rule agitation, the empire was established and Hungary was finnally granted its own government, though key ministries were shared with the Austrians. Meanwhile, the aftermath of war, as dictated by Trianon, was to cost Hungary very dearly. meanwhile, provided investment in Hungarian industry and a market for Hungarian farm produce, and earned a grudging admiration from the Hungarians for its defiance of the World War I allies. In 1940 Hungary allowed the German army to cross its territory and, as a Yugoslavia. Hungary was the first country to draw back its West. In 1997 Hungary was NATO."
@@ -137,12 +148,16 @@ Initially, we intended to use a variety of different genres of document and trai
 "Around the third century b.c., Hungary was occupied by a tribe known as Eraviscans, refugees from wars in Greece. Hungary remained beyond the reach of western Europe until the first century a.d., when the Roman legions advanced and pushed its northeast frontier to the Danube. Hungary was effectively dismembered: the north and west fell to the Transylvania became a so-called independent principality under Turkish auspices; and central Hungary came under direct Turkish rule. In 1867, under a compromise designed to curtail home-rule agitation, the empire was established and Hungary was finally granted its own government, though key ministries were shared with the Austrians. Meanwhile, the aftermath of war, as dictated by the Treaty of Trianon, was to cost Hungary very dearly. Germany, meanwhile, provided investment in Hungarian industry and a market for Hungarian farm produce, and earned a grudging admiration from the Hungarians for its defiance of the World War I allies. In 1940 Hungary allowed the German army to cross its and, as a reward, they temporarily recovered parts of its former lands from Romania and Yugoslavia. Hungary was the first country to draw back its Iron Curtain, dismantling the barbed wire along its border and allowing East Germans to escape to the West. In 1997 Hungary was offered membership in NATO."
 \caption{The final summary for a document on the history of Budapest.}\label{goodsummary}
 \end{figure}
+
+
  
 
 
 	Given that document summarization is an unsupervised learning problem, it was particularly difficult to evaluate the "success" of our program. However, we did have 2 different methods for evaluation in mind. First we have ROUGE, a program built by a USC grad student which provides a measure of how "good" a summary is. We acquired this program and installed in on my laptop, but upon inspection of Chin-Yew Lin (the creator of ROUGE)'s paper \emph{ROUGE: A Package for Automatic Evaluation of Summaries}, we realized that ROUGE was made for the evaluation of abstract rather than extract summaries, and under the hood it operated using an n-gram model. Since we use sentences copied (albeit somewhat edited) from the original document, this method would be confounding and produce poor evaluation results.
 	
 We also considered a process by which one of us writes questions about a document, while the other one writes a summary. We would then randomly assign some human subjects either a human-made summary or a summary assembled by our program, and pose the questions that were written about that document. We would look at the the accuracy of their responses for both the human- and computer-generated summaries and compare the two. However, given the task of assembling a meaningful number of human subjects on which to run this test is outside of the scope of this project.
+
+Given
 
 
 
