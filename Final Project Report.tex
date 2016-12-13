@@ -107,7 +107,11 @@ We accomplish this by first parsing the sentence and then trying to prune subtre
 
 To achieve this, we leveraged the code we had already written to try to prune sentences. For each sentence, the algorithm finds all the different ways to prune the parse tree of that sentence. It then does an in order traversal of all these trees to extract the pruned sentence from each tree. With pruned sentences, we can use the centrality measure we used originally for content selection to find the best pruned sentence.
 
-The results of this first attempt at pruning can be seen in Figure~\ref{badsummary}. As we can see, the pruning is too aggressive, pruning sentences down to their keywords, but creating giberish in the process. 
+The results of this first attempt at pruning can be seen in Figure~\ref{badsummary}. As we can see, the pruning is too aggressive, pruning sentences down to their keywords, but creating giberish in the process. We therefore needed to refine this process.
+
+The next and final idea was to weight sentences which had been pruned less higher. The reasoning being that we should really only prune a lot of the sentence if the information to be pruned is really worthless. Pruning less aggresively also leads to sentences which are more likely to retain their grammatical structure.
+
+We can see in Figure~\ref{goodsummary} that this final implementation strikes a pretty good balance between pruning and retaining the meaning of each sentence.
 
 
 
