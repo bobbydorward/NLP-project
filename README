@@ -1,0 +1,18 @@
+Bobby Dorward and Ryan Wilson, Final Project
+CS333 Fall 2016, Donaldson
+
+
+Since our program is in python, there is no need to handle dependencies. Once you have the requisite nltk packages (which will be explained shortly), running the program is as simple as a "python3 master.py" on the command line. This will display the names of files being trained on as they are being trained on, then output an unpruned summary followed by a pruned summary of the file Budapest-History.txt from OANC. However, you can optionally pass in an additional argument, specifying another file in OANC to summarize, which will result output in the same format.
+
+HOWEVER, prior to running master.py you will have to follow these instructions in the command line:
+1) enter the python3 REPL with the "python3" command
+2) in the REPL, enter "import nltk"
+3) enter "nltk.download()"
+4) from the GUI, download the averaged perceptron tagger 
+5) enter "exit()" to leave the REPL
+6) now you can run master.py!
+
+Note: our python programs compile, run, and rm class files for all java programs that are used
+
+
+We have adhered to the Honor Code in this assignment
