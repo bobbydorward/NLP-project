@@ -22,8 +22,8 @@ class selector:
 
 	#stop = ["a","the","he","she","we","I","they","of", "an"]
 
-	doc_counter = None
-	word_counter=None
+	doc_counter = None #a document counter object from counts.py which gives the counts for idf
+	word_counter=None # a word counter object from counts.py which gives the counts for tf
 	word_map = None
 	doc_count =0
 	document = None
@@ -35,6 +35,8 @@ class selector:
 	current_pruned = None
 
 	def __init__(self,doc_counter,word_counter,document):
+		
+		#initialize the variables
 		self.doc_counter = doc_counter
 		self.word_counter = word_counter
 		self.word_map = word_counter.get_word_map()
@@ -42,18 +44,19 @@ class selector:
 		self.doc_count = doc_counter.get_num_docs()
 		self.document = document
 
-		#self.printer(self.document.body)
-		#print()
+		#print the title of the document
 		print("Summary:")
 		for j in self.document.title:
 			print(j,end=" ")
 		print()
 		doc = self.document.body.copy()
+
+		#sort the document by centrality and grab the best sentences for the summary
 		doc.sort(key=self.centrality,reverse=True)
-		#for i in doc:
-		#	print(self.centrality(i))
 		best = doc[:max(1,int(0.1*len(document.body)))]
 		best.sort(key=self.orig_order)
+
+		#print the raw summary
 		self.printer(best)
 		print()
 		self.summary = best
@@ -69,13 +72,11 @@ class selector:
 		self.raw_parse_summary = self.read_POS()
 
 		os.system("rm *.class POS_tmp POS_tmp_parsed")
-		#print(parse_tree.parse_tree(self.raw_parse_summary[0]))
-		#print(parse_tree.parse_tree(self.raw_parse_summary[0]).get_sentence())
-		#ab= parse_tree.parse_tree(self.raw_parse_summary[0]).get_all_pruned_sentences()
-		#for a in ab:
-		#	print(a)
+
+		#create parse tree objects for each parse tree given by the java CKY program
 		self.parse_summary = [parse_tree.parse_tree(raw) for raw in self.raw_parse_summary]
-		print("pruned summary")
+		print("Pruned summary:")
+		print()
 		self.prune()
 
 
